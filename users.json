@@ -1,0 +1,10 @@
+[
+  {
+    "id": "admin",
+    "role": "admin",
+    "password": {
+      "password": "admin",
+      "encrypted": false
+    }
+  }
+]

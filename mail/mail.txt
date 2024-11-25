@@ -1,0 +1,8 @@
+From: from@example.com
+Subject: パスワード登録用URL
+Content-Type: text/plain; charset="UTF-8"
+To: {{.To}}
+
+
+下記のURLにアクセスして、パスワードを設定してください
+{{.Url}}

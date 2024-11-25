@@ -1,0 +1,9 @@
+reverse-url: http://localhost:8501/
+port: 8080
+mail:
+  host: localhost:19925
+  from: sample@sample.com 
+  user:
+  pass:
+  validedlist:
+    - foo@example.com
