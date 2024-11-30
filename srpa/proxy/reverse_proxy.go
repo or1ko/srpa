@@ -5,15 +5,17 @@ import (
 	"net/http/httputil"
 	"net/url"
 
+	"github.com/or1ko/srpa/srpa/logging"
 	"github.com/or1ko/srpa/srpa/session"
 )
 
 type ReverseProxyResource struct {
 	Session *session.Session
+	Logger  *logging.Logger
 }
 
-func (rp ReverseProxyResource) hasSession(r *http.Request) bool {
-	return rp.Session.HasSession(r)
+func (rp ReverseProxyResource) getSession(r *http.Request) (session.SessionInfo, bool) {
+	return rp.Session.GetSession(r)
 }
 
 // Cookieを使用したリバースプロキシハンドラー
@@ -21,8 +23,8 @@ func (rp ReverseProxyResource) HandleReverseProxyWithCookieAuth(target string) h
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		// Cookieを取得して認証を検証
-		hasSession := rp.hasSession(r)
-		if !hasSession {
+		sessionInfo, exists := rp.getSession(r)
+		if !exists {
 			http.Redirect(w, r, "/login?redirectTo="+r.URL.Path, http.StatusFound)
 			// http.Error(w, "認証が必要です。ログインしてください。", http.StatusUnauthorized)
 		}
@@ -34,7 +36,8 @@ func (rp ReverseProxyResource) HandleReverseProxyWithCookieAuth(target string) h
 			return
 		}
 
-		// リバースプロキシを作成
+		rp.Logger.Log(r.RemoteAddr, sessionInfo.Username, r.Method, r.RequestURI)
+
 		proxy := httputil.NewSingleHostReverseProxy(url)
 		r.Host = url.Host
 

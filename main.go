@@ -44,6 +44,7 @@ func main() {
 
 	as := accounts_file.Load("users.json")
 	session := session.EmptySession()
+	logger := config.Logging.NewLogger()
 	login := login.LoginResource{
 		Accounts: as,
 		Session:  &session,
@@ -56,6 +57,7 @@ func main() {
 
 	proxy := proxy.ReverseProxyResource{
 		Session: &session,
+		Logger:  &logger,
 	}
 
 	logout := logout.LogoutResource{
