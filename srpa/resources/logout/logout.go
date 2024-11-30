@@ -1,6 +1,7 @@
 package logout
 
 import (
+	_ "embed"
 	"net/http"
 
 	"github.com/or1ko/srpa/srpa/resources/login"
@@ -33,6 +34,9 @@ func (res LogoutResource) LogoutHandler(w http.ResponseWriter, r *http.Request) 
 	http.Redirect(w, r, "/", http.StatusFound)
 }
 
+//go:embed logout.html
+var logout_page []byte
+
 func showChangePasswordPage(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "frontend/logout.html")
+	w.Write(logout_page)
 }

@@ -1,6 +1,7 @@
 package user_info
 
 import (
+	_ "embed"
 	"html/template"
 	"net/http"
 
@@ -23,9 +24,12 @@ func (res UserInfoResource) UserInfoHandler(w http.ResponseWriter, r *http.Reque
 	showUserInfoPage(w, sessionInfo)
 }
 
+//go:embed user_info.html
+var user_info_page string
+
 func showUserInfoPage(w http.ResponseWriter, info session.SessionInfo) {
 	w.Header().Set("Content-Type", "text/html")
-	t, _ := template.ParseFiles("frontend/user_info.html")
+	t, _ := template.New("user-info").Parse(user_info_page)
 	params := map[string]string{
 		"Username":      info.Username,
 		"Role":          info.Role,
