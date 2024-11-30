@@ -7,3 +7,6 @@ mail:
   pass:
   validedlist:
     - foo@example.com
+logging: 
+  enabled : true
+  filename : ./log/access.log
