@@ -1,6 +1,7 @@
 package login
 
 import (
+	_ "embed"
 	"html/template"
 	"net/http"
 
@@ -38,9 +39,12 @@ func (res LoginResource) LoginHandler(w http.ResponseWriter, r *http.Request) {
 	ShowLoginFailurePage(w, r)
 }
 
+//go:embed login.html
+var login_html string
+
 func showLoginPage(w http.ResponseWriter, redirectUrl string) {
 	w.Header().Set("Content-Type", "text/html")
-	t, _ := template.ParseFiles("frontend/login.html")
+	t, _ := template.New("loginpage").Parse(login_html)
 	t.Execute(w, redirectUrl)
 }
 
@@ -48,6 +52,9 @@ func RedirectLoginPagee(w http.ResponseWriter, r *http.Request, redirectUrl stri
 	http.Redirect(w, r, "/login?redirectTo="+redirectUrl, http.StatusFound)
 }
 
+//go:embed login_failure.html
+var login_failure_page []byte
+
 func ShowLoginFailurePage(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "frontend/login_failure.html")
+	w.Write(login_failure_page)
 }
