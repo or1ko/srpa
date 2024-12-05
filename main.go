@@ -1,15 +1,13 @@
 package main
 
 import (
-	"flag"
-	"fmt"
 	"log"
 	"net"
 	"net/http"
-	"os"
 
 	"github.com/or1ko/srpa/srpa/account/accounts_file"
 	"github.com/or1ko/srpa/srpa/config"
+	"github.com/or1ko/srpa/srpa/env"
 	"github.com/or1ko/srpa/srpa/proxy"
 	"github.com/or1ko/srpa/srpa/resources/add_user"
 	"github.com/or1ko/srpa/srpa/resources/login"
@@ -21,18 +19,7 @@ import (
 )
 
 func main() {
-	workdir := flag.String("workdir", "", "spacify work directory")
-
-	flag.Parse()
-
-	if *workdir != "" {
-		os.Chdir(*workdir)
-	}
-
-	wd, err := os.Getwd()
-	if err == nil {
-		fmt.Println("Current workdir is " + wd)
-	}
+	env.SetWorkDir()
 
 	config := config.Load("config.yaml")
 
