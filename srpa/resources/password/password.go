@@ -23,7 +23,7 @@ func (res PasswordResource) ChangePasswordHandler(w http.ResponseWriter, r *http
 	}
 
 	if r.Method == http.MethodGet {
-		showChangePasswordPage(w, r)
+		showChangePasswordPage(w)
 		return
 	}
 
@@ -41,6 +41,6 @@ func (res PasswordResource) ChangePasswordHandler(w http.ResponseWriter, r *http
 //go:embed password.html
 var password_page []byte
 
-func showChangePasswordPage(w http.ResponseWriter, r *http.Request) {
+func showChangePasswordPage(w http.ResponseWriter) {
 	w.Write(password_page)
 }
