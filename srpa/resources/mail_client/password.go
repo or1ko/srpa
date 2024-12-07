@@ -1,6 +1,7 @@
 package mail_client
 
 import (
+	_ "embed"
 	"net/http"
 	"time"
 
@@ -63,10 +64,16 @@ func BuildMailPasswordUrl(host string, token string) string {
 	return host + "/mail_password?token=" + token
 }
 
+//go:embed mail_password.html
+var mail_password_page []byte
+
 func showMailPasswordPage(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "frontend/mail_password.html")
+	w.Write(mail_password_page)
 }
 
+//go:embed success_mail_password.html
+var success_mail_password_page []byte
+
 func showSuccessMailPasswordPage(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "frontend/success_mail_password.html")
+	w.Write(success_mail_password_page)
 }

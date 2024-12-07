@@ -1,6 +1,7 @@
 package add_user
 
 import (
+	_ "embed"
 	"net/http"
 
 	"github.com/or1ko/srpa/srpa/account"
@@ -43,10 +44,16 @@ func (res AddUserResource) AddUserHandler(w http.ResponseWriter, r *http.Request
 	http.Redirect(w, r, "/add_user", http.StatusFound)
 }
 
+//go:embed add_user.html
+var add_user_html []byte
+
 func ShowAddUserPage(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "frontend/add_user.html")
+	w.Write(add_user_html)
 }
 
+//go:embed no_permission.html
+var no_permission_page []byte
+
 func ShowNoPermissionPage(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "frontend/no_permission.html")
+	w.Write(no_permission_page)
 }

@@ -1,6 +1,7 @@
 package password
 
 import (
+	_ "embed"
 	"net/http"
 
 	"github.com/or1ko/srpa/srpa/account"
@@ -37,6 +38,9 @@ func (res PasswordResource) ChangePasswordHandler(w http.ResponseWriter, r *http
 
 }
 
+//go:embed password.html
+var password_page []byte
+
 func showChangePasswordPage(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "frontend/password.html")
+	w.Write(password_page)
 }

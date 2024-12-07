@@ -5,13 +5,15 @@ import (
 	"log"
 	"os"
 
+	"github.com/or1ko/srpa/srpa/logging"
 	"gopkg.in/yaml.v2"
 )
 
 type Config struct {
-	ReverseUrl string     `yaml:"reverse-url"`
-	Port       string     `yaml:"port"`
-	Mail       MailConfig `yaml:"mail"`
+	ReverseUrl string                `yaml:"reverse-url"`
+	Port       string                `yaml:"port"`
+	Mail       MailConfig            `yaml:"mail"`
+	Logging    logging.LoggingConfig `yaml:"logging"`
 }
 
 type MailConfig struct {
