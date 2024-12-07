@@ -30,7 +30,7 @@ func (res MailPasswordResource) MailPasswordHandler(w http.ResponseWriter, r *ht
 				Expires:  time.Now().Add(time.Duration(res.ExpiredMinute) * time.Minute),
 				HttpOnly: true,
 			})
-			showMailPasswordPage(w, r)
+			showMailPasswordPage(w)
 			return
 		}
 
@@ -55,7 +55,7 @@ func (res MailPasswordResource) MailPasswordHandler(w http.ResponseWriter, r *ht
 	if valid {
 		pass := r.FormValue("password")
 		res.Accounts.Add(mail, pass)
-		showSuccessMailPasswordPage(w, r)
+		showSuccessMailPasswordPage(w)
 		return
 	}
 }
@@ -67,13 +67,13 @@ func BuildMailPasswordUrl(host string, token string) string {
 //go:embed mail_password.html
 var mail_password_page []byte
 
-func showMailPasswordPage(w http.ResponseWriter, r *http.Request) {
+func showMailPasswordPage(w http.ResponseWriter) {
 	w.Write(mail_password_page)
 }
 
 //go:embed success_mail_password.html
 var success_mail_password_page []byte
 
-func showSuccessMailPasswordPage(w http.ResponseWriter, r *http.Request) {
+func showSuccessMailPasswordPage(w http.ResponseWriter) {
 	w.Write(success_mail_password_page)
 }

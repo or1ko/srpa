@@ -23,7 +23,7 @@ func (res AddUserResource) AddUserHandler(w http.ResponseWriter, r *http.Request
 	}
 
 	if r.Method == http.MethodGet {
-		ShowAddUserPage(w, r)
+		ShowAddUserPage(w)
 		return
 	}
 
@@ -33,7 +33,7 @@ func (res AddUserResource) AddUserHandler(w http.ResponseWriter, r *http.Request
 	}
 
 	if sessionInfo.Role != "admin" {
-		ShowNoPermissionPage(w, r)
+		ShowNoPermissionPage(w)
 		return
 	}
 
@@ -47,13 +47,13 @@ func (res AddUserResource) AddUserHandler(w http.ResponseWriter, r *http.Request
 //go:embed add_user.html
 var add_user_html []byte
 
-func ShowAddUserPage(w http.ResponseWriter, r *http.Request) {
+func ShowAddUserPage(w http.ResponseWriter) {
 	w.Write(add_user_html)
 }
 
 //go:embed no_permission.html
 var no_permission_page []byte
 
-func ShowNoPermissionPage(w http.ResponseWriter, r *http.Request) {
+func ShowNoPermissionPage(w http.ResponseWriter) {
 	w.Write(no_permission_page)
 }

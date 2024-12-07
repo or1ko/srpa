@@ -16,7 +16,7 @@ type MailRegisterResource struct {
 func (res MailRegisterResource) MailRegisterHandler(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == http.MethodGet {
-		showMailRegisterPage(w, r)
+		showMailRegisterPage(w)
 		return
 	}
 
@@ -33,10 +33,10 @@ func (res MailRegisterResource) MailRegisterHandler(w http.ResponseWriter, r *ht
 
 		res.sendMail(to_address, url)
 
-		showSendMatilPage(w, r)
+		showSendMatilPage(w)
 
 	} else {
-		showInvalidMailPage(w, r)
+		showInvalidMailPage(w)
 	}
 }
 
@@ -61,21 +61,21 @@ func (res MailRegisterResource) sendMail(address string, url string) {
 //go:embed mail_register.html
 var mail_register_page []byte
 
-func showMailRegisterPage(w http.ResponseWriter, r *http.Request) {
+func showMailRegisterPage(w http.ResponseWriter) {
 	w.Write(mail_register_page)
 }
 
 //go:embed invalid_mail_address.html
 var invalid_mail_address_page []byte
 
-func showInvalidMailPage(w http.ResponseWriter, r *http.Request) {
+func showInvalidMailPage(w http.ResponseWriter) {
 	w.Write(invalid_mail_address_page)
 }
 
 //go:embed send_mail.html
 var send_mail_page []byte
 
-func showSendMatilPage(w http.ResponseWriter, r *http.Request) {
+func showSendMatilPage(w http.ResponseWriter) {
 	w.Write(send_mail_page)
 }
 

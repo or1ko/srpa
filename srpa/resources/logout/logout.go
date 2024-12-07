@@ -21,7 +21,7 @@ func (res LogoutResource) LogoutHandler(w http.ResponseWriter, r *http.Request) 
 	}
 
 	if r.Method == http.MethodGet {
-		showChangePasswordPage(w, r)
+		showChangePasswordPage(w)
 		return
 	}
 
@@ -37,6 +37,6 @@ func (res LogoutResource) LogoutHandler(w http.ResponseWriter, r *http.Request) 
 //go:embed logout.html
 var logout_page []byte
 
-func showChangePasswordPage(w http.ResponseWriter, r *http.Request) {
+func showChangePasswordPage(w http.ResponseWriter) {
 	w.Write(logout_page)
 }
