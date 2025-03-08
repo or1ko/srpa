@@ -10,10 +10,10 @@ import (
 )
 
 type Config struct {
-	ReverseUrl string                `yaml:"reverse-url"`
-	Port       string                `yaml:"port"`
-	Mail       MailConfig            `yaml:"mail"`
-	Logging    logging.LoggingConfig `yaml:"logging"`
+	ReverseMaps []string              `yaml:"reverse-map"`
+	Port        string                `yaml:"port"`
+	Mail        MailConfig            `yaml:"mail"`
+	Logging     logging.LoggingConfig `yaml:"logging"`
 }
 
 type MailConfig struct {
