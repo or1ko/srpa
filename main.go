@@ -7,6 +7,7 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/or1ko/srpa/srpa/account/accounts_file"
 	"github.com/or1ko/srpa/srpa/config"
@@ -99,7 +100,12 @@ func main() {
 	http.HandleFunc("/user_info", user_info.UserInfoHandler)
 	http.HandleFunc("/mail_register", mail_registerr.MailRegisterHandler)
 	http.HandleFunc("/mail_password", mail_password.MailPasswordHandler)
-	http.HandleFunc("/", proxy.HandleReverseProxyWithCookieAuth(config.ReverseUrl))
+
+	for i := 0; i < len(config.ReverseMaps); i++ {
+		paths := strings.SplitN(config.ReverseMaps[i], ":", 2)
+		log.Printf("%s %s", paths[0], paths[1])
+		http.HandleFunc(paths[0], proxy.HandleReverseProxyWithCookieAuth(paths[0], paths[1]))
+	}
 
 	log.Printf("Starting reverse proxy server on %s\n", host)
 
