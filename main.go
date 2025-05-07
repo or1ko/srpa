@@ -60,6 +60,7 @@ func main() {
 	password := password.PasswordResource{
 		Session:  session,
 		Accounts: &as,
+		Home:     config.Home,
 	}
 
 	proxy := proxy.ReverseProxyResource{
@@ -69,11 +70,13 @@ func main() {
 
 	logout := logout.LogoutResource{
 		Session: &session,
+		Home:    config.Home,
 	}
 
 	add_user := add_user.AddUserResource{
 		Accounts: as,
 		Session:  &session,
+		Home:     config.Home,
 	}
 
 	user_info := user_info.UserInfoResource{
@@ -90,6 +93,7 @@ func main() {
 			From: config.Mail.From,
 			Auth: nil,
 		},
+		Home: config.Home,
 	}
 
 	mail_password := mail_client.MailPasswordResource{
@@ -97,6 +101,7 @@ func main() {
 		Accounts:      as,
 		CookieName:    "mail_cookie",
 		ExpiredMinute: 10,
+		Home:          config.Home,
 	}
 
 	http.HandleFunc("/login", login.LoginHandler)

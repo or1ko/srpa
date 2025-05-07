@@ -3,6 +3,7 @@ package mail_client
 import (
 	_ "embed"
 	"net/http"
+	"text/template"
 	"time"
 
 	"github.com/or1ko/srpa/srpa/account"
@@ -13,6 +14,7 @@ type MailPasswordResource struct {
 	Pool          MailPool
 	CookieName    string
 	Accounts      account.IAccounts
+	Home          string
 }
 
 func (res MailPasswordResource) MailPasswordHandler(w http.ResponseWriter, r *http.Request) {
@@ -55,7 +57,7 @@ func (res MailPasswordResource) MailPasswordHandler(w http.ResponseWriter, r *ht
 	if valid {
 		pass := r.FormValue("password")
 		res.Accounts.Add(mail, pass)
-		showSuccessMailPasswordPage(w)
+		showSuccessMailPasswordPage(w, res.Home)
 		return
 	}
 }
@@ -72,8 +74,12 @@ func showMailPasswordPage(w http.ResponseWriter) {
 }
 
 //go:embed success_mail_password.html
-var success_mail_password_page []byte
+var success_mail_password_page string
 
-func showSuccessMailPasswordPage(w http.ResponseWriter) {
-	w.Write(success_mail_password_page)
+func showSuccessMailPasswordPage(w http.ResponseWriter, home string) {
+	t, _ := template.New("success_mail_password").Parse(success_mail_password_page)
+	params := map[string]string{
+		"Home": home,
+	}
+	t.Execute(w, params)
 }

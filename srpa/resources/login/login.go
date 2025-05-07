@@ -12,6 +12,7 @@ import (
 type LoginResource struct {
 	Accounts account.IAccounts
 	Session  *session.Session
+	Home     string
 }
 
 func (res LoginResource) LoginHandler(w http.ResponseWriter, r *http.Request) {
@@ -36,7 +37,7 @@ func (res LoginResource) LoginHandler(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, rediretUrl, http.StatusFound)
 		return
 	}
-	ShowLoginFailurePage(w)
+	ShowLoginFailurePage(w, res.Home)
 }
 
 //go:embed login.html
@@ -53,8 +54,12 @@ func RedirectLoginPagee(w http.ResponseWriter, r *http.Request, redirectUrl stri
 }
 
 //go:embed login_failure.html
-var login_failure_page []byte
+var login_failure_page string
 
-func ShowLoginFailurePage(w http.ResponseWriter) {
-	w.Write(login_failure_page)
+func ShowLoginFailurePage(w http.ResponseWriter, home string) {
+	t, _ := template.New("login_failure_page").Parse(login_failure_page)
+	params := map[string]string{
+		"Home": home,
+	}
+	t.Execute(w, params)
 }

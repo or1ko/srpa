@@ -12,6 +12,7 @@ import (
 type PasswordResource struct {
 	Accounts account.IAccounts
 	Session  session.Session
+	Home     string
 }
 
 func (res PasswordResource) ChangePasswordHandler(w http.ResponseWriter, r *http.Request) {
@@ -34,7 +35,7 @@ func (res PasswordResource) ChangePasswordHandler(w http.ResponseWriter, r *http
 
 	pass := r.FormValue("password")
 	res.Accounts.ChangePassword(sessionInfo.Username, pass)
-	http.Redirect(w, r, "/", http.StatusFound)
+	http.Redirect(w, r, res.Home, http.StatusFound)
 
 }
 

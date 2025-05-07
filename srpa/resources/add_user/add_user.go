@@ -2,6 +2,7 @@ package add_user
 
 import (
 	_ "embed"
+	"html/template"
 	"net/http"
 
 	"github.com/or1ko/srpa/srpa/account"
@@ -12,6 +13,7 @@ import (
 type AddUserResource struct {
 	Accounts account.IAccounts
 	Session  *session.Session
+	Home     string
 }
 
 func (res AddUserResource) AddUserHandler(w http.ResponseWriter, r *http.Request) {
@@ -33,7 +35,7 @@ func (res AddUserResource) AddUserHandler(w http.ResponseWriter, r *http.Request
 	}
 
 	if sessionInfo.Role != "admin" {
-		ShowNoPermissionPage(w)
+		ShowNoPermissionPage(w, res.Home)
 		return
 	}
 
@@ -52,8 +54,12 @@ func ShowAddUserPage(w http.ResponseWriter) {
 }
 
 //go:embed no_permission.html
-var no_permission_page []byte
+var no_permission_page string
 
-func ShowNoPermissionPage(w http.ResponseWriter) {
-	w.Write(no_permission_page)
+func ShowNoPermissionPage(w http.ResponseWriter, home string) {
+	t, _ := template.New("no_permission_page").Parse(no_permission_page)
+	params := map[string]string{
+		"Home": home,
+	}
+	t.Execute(w, params)
 }

@@ -10,6 +10,7 @@ import (
 
 type LogoutResource struct {
 	Session *session.Session
+	Home    string
 }
 
 func (res LogoutResource) LogoutHandler(w http.ResponseWriter, r *http.Request) {
@@ -31,7 +32,7 @@ func (res LogoutResource) LogoutHandler(w http.ResponseWriter, r *http.Request) 
 	}
 
 	res.Session.RemoveSession(r)
-	http.Redirect(w, r, "/", http.StatusFound)
+	http.Redirect(w, r, res.Home, http.StatusFound)
 }
 
 //go:embed logout.html

@@ -2,6 +2,7 @@ reverse-map:
   - "/hoge/:http://localhost:8501"
 #host: http://hogehoge:8080
 port: 8080
+home: "/"
 mail:
   host: localhost:19925
   from: sample@sample.com 

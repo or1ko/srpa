@@ -11,6 +11,7 @@ type MailRegisterResource struct {
 	Host       string
 	Pool       MailPool
 	MailClient Mail
+	Home       string
 }
 
 func (res MailRegisterResource) MailRegisterHandler(w http.ResponseWriter, r *http.Request) {
@@ -33,7 +34,7 @@ func (res MailRegisterResource) MailRegisterHandler(w http.ResponseWriter, r *ht
 
 		res.sendMail(to_address, url)
 
-		showSendMatilPage(w)
+		showSendMatilPage(w, res.Home)
 
 	} else {
 		showInvalidMailPage(w)
@@ -73,10 +74,14 @@ func showInvalidMailPage(w http.ResponseWriter) {
 }
 
 //go:embed send_mail.html
-var send_mail_page []byte
+var send_mail_page string
 
-func showSendMatilPage(w http.ResponseWriter) {
-	w.Write(send_mail_page)
+func showSendMatilPage(w http.ResponseWriter, home string) {
+	t, _ := template.New("send_mail").Parse(send_mail_page)
+	params := map[string]string{
+		"Home": home,
+	}
+	t.Execute(w, params)
 }
 
 func RedirectMailRegisterPagee(w http.ResponseWriter, r *http.Request) {
