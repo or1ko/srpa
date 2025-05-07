@@ -11,6 +11,7 @@ import (
 
 type Config struct {
 	ReverseMaps []string              `yaml:"reverse-map"`
+	Host        string                `yaml:"host"`
 	Port        string                `yaml:"port"`
 	Mail        MailConfig            `yaml:"mail"`
 	Logging     logging.LoggingConfig `yaml:"logging"`

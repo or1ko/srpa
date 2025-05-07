@@ -41,7 +41,13 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to get local IP address: %v\n", err)
 	}
-	host := "http://" + ipAddress + ":" + config.Port
+
+	var host string
+	if config.Host == "" {
+		host = "http://" + ipAddress + ":" + config.Port
+	} else {
+		host = config.Host
+	}
 
 	as := accounts_file.Load("users.json")
 	session := session.EmptySession()
