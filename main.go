@@ -88,6 +88,7 @@ func main() {
 	mail_registerr := mail_client.MailRegisterResource{
 		Host: host,
 		Pool: mail_pool,
+		From: config.Mail.From,
 		MailClient: mail_client.Mail{
 			Addr: config.Mail.Host,
 			From: config.Mail.From,

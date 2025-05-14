@@ -9,6 +9,7 @@ import (
 
 type MailRegisterResource struct {
 	Host       string
+	From       string
 	Pool       MailPool
 	MailClient Mail
 	Home       string
@@ -32,7 +33,7 @@ func (res MailRegisterResource) MailRegisterHandler(w http.ResponseWriter, r *ht
 	if valid {
 		url := BuildMailPasswordUrl(res.Host, token)
 
-		res.sendMail(to_address, url)
+		res.sendMail(to_address, url, res.From)
 
 		showSendMatilPage(w, res.Home)
 
@@ -44,13 +45,14 @@ func (res MailRegisterResource) MailRegisterHandler(w http.ResponseWriter, r *ht
 //go:embed mail.txt
 var mail_text string
 
-func (res MailRegisterResource) sendMail(address string, url string) {
+func (res MailRegisterResource) sendMail(address string, url string, from string) {
 	var body bytes.Buffer
 
 	t, _ := template.New("mail-text").Parse(mail_text)
 	params := map[string]string{
-		"To":  address,
-		"Url": url,
+		"From": from,
+		"To":   address,
+		"Url":  url,
 	}
 	t.Execute(&body, params)
 
